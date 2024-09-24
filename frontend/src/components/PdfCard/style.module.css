@@ -1,0 +1,17 @@
+.pdfCard {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.pdfCard p {
+    margin-top: 10px;
+}
+
+.pdfCard a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: blue;
+}

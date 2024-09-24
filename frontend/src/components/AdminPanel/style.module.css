@@ -1,0 +1,9 @@
+.adminPanel {
+    margin-top: 30px;
+}
+
+.adminPanel input {
+    display: block;
+    margin: 10px 0;
+    padding: 5px;
+}
