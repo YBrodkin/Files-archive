@@ -12,7 +12,7 @@ const PdfList = () => {
   }, []);
 
   return (
-    <div className={styles.pdfList}>
+    <div className={styles.main}>
       {files.map(file => (
         <PdfCard key={file.name} file={file} />
       ))}

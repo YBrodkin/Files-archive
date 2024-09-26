@@ -1,8 +1,10 @@
-.adminPanel {
+.main {
     margin-top: 30px;
+    display: grid;
+    place-items: center;
 }
 
-.adminPanel input {
+.main input {
     display: block;
     margin: 10px 0;
     padding: 5px;

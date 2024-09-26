@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './style.module.css';
-
 
 const AdminPanel = () => {
   const [password, setPassword] = useState('');
@@ -21,7 +20,7 @@ const AdminPanel = () => {
   };
 
   return (
-    <div className={styles.adminPanel}>
+    <div className={styles.main}>
       <h2>ניהול המערכת</h2>
       <input
         type="password"
