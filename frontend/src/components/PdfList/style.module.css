@@ -1,7 +1,13 @@
 .main {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 20px;
-    padding: 20px;
-  }
-  
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.status {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.2rem;
+  color: #555;
+}
