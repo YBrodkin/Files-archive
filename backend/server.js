@@ -2,29 +2,34 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const fs = require('fs').promises;
 const path = require('path');
-const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const { comparePassword } = require('./auth-utils');
+
 
 dotenv.config();
 
-console.log(process.env.ADMIN_PASSWORD);
-
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Middleware לבדיקת סיסמת מנהל
+// Middleware לאימות המנהל
 const checkAdminAuth = (req, res, next) => {
   const password = req.body.password;
   if (!password) return res.status(401).json({ message: 'לא הוכנסה סיסמא' });
 
-  bcrypt.compare(password, process.env.ADMIN_PASSWORD, (err, result) => {
-    if (result) next();
-    else res.status(401).json({ message: 'הזיהוי נכשל' });
-  });
+  comparePassword(password, process.env.ADMIN_PASSWORD)
+    .then(result => {
+      if (result) next();
+      else res.status(401).json({ message: 'הזיהוי נכשל' });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ message: 'שגיאה באימות הסיסמה' });
+    });
 };
 
 // קבלת כל הקבצים
@@ -55,15 +60,15 @@ app.post('/upload', checkAdminAuth, (req, res) => {
 });
 
 // מחיקת קובץ
-app.delete('/delete', checkAdminAuth, (req, res) => {
-  let fileName = req.body.fileName;
-  let filePath = path.join(__dirname, 'uploads', fileName);
+app.delete('/delete', checkAdminAuth, async (req, res) => {
+  const fileName = req.body.fileName;
+  const filePath = path.join(__dirname, 'uploads', fileName);
 
-  if (fs.existsSync(filePath)) {
-    fs.unlinkSync(filePath);
-    res.json({ message: 'File deleted successfully' });
-  } else {
-    res.status(404).json({ message: 'File not found' });
+  try {
+    await fs.unlink(filePath);
+    res.json({ message: 'הקובץ נמחק' });
+  } catch {
+    res.status(404).json({ message: 'לא נמצא קובץ כזה' });
   }
 });
 
